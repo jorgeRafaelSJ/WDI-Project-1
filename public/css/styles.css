@@ -1,0 +1,16 @@
+body {
+}
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+#map-box {
+	height: 550px;
+}
+#map {
+	height: 100%;
+}
+.form-control {
+	margin-bottom: 30px;
+}
