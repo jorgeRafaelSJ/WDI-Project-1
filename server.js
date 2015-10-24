@@ -6,6 +6,7 @@ var ejs = require('ejs');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var bodyParser = require('body-parser');
+var db = require('./models/index.js');
 
 //uses and sets
 
@@ -26,12 +27,25 @@ app.use(bodyParser.urlencoded({
 }));
 
 
-//server requests
+//route req-res
 
 app.get ('/barmarks', function(req, res) {
 	res.render('index', {gMaps: gMaps});
 });
 
+app.post ('/api/marks', function(req, res) {
+	
+	var newMark = req.body;
+	db.Mark.create(newMark, function(err, mark) {
+		
+		if(err) { console.log(err); }
+
+		console.log(mark);
+		res.json(mark);
+	});
+
+
+});
 
 
 
