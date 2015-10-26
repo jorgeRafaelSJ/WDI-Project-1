@@ -33,7 +33,7 @@ app.use(bodyParser.urlencoded({
 
 //main page GET
 
-app.get ('/barmarks', function (req, res) {
+app.get ('/', function (req, res) {
 
 		res.render('index', {gMaps: gMaps});
 	
