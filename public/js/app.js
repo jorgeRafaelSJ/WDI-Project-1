@@ -188,7 +188,18 @@ $(document).ready(function(){
   	 	$('#login-form').on('submit', function(e) {
   		e.preventDefault();
   		var loginForm = $(this).serialize();
-  		console.log(loginForm);
+
+      $.ajax({
+        url: "/sessions",
+        type: "POST",
+        data: loginForm
+      })
+      .done( function (data) {
+        console.log(data);
+      })
+      .fail( function (data) {
+        console.log(data);
+      });
   	});
 
 
