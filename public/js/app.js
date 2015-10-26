@@ -4,19 +4,67 @@ console.log("HEY HEY HEY");
 
 $(document).ready(function(){
 
-	//MAP 
+	//GOOGLE MAPS API GLOBAL VARIABLES *NEEDED*
 	var map = new google.maps.Map(document.getElementById('map'), {
-		center: { lat: 37.78, lng: -122.44},
+		center: { lat: 37.78, lng: -122.45},
 		zoom: 13
 	});
-
+  var Marker;
+  var newMarker;
 	var place;
+  var infowindow;
+  var contentString;
+  //listener function for markers has to be here for it to bind correct marker to infoWindow
+  var listenMarker = function(marker, contentString){
+
+     marker.addListener('click', function() {
+      infowindow.setContent(contentString);
+      infowindow.open(map, marker);
+     });
+  };
+   
+  $.get('/api/marks', function (data) {
+
+    for (var i = 0; i < data.length; i++) {
+      
+      var lat = data[i].latitude;
+      var lng = data[i].longitude;
+      var position = {lat: lat, lng: lng};
+      var icon = "/js/Pin.png";
+
+      contentString = 
+      "<h3>" + data[i].businessName + "</h3>" +
+      "<h5>" + data[i].address + "</h5>" +
+      "<p> Crowd Level: " + data[i].crowdLevel + "</p>" +
+      "<p> Last Song Played: " + data[i].lastSong + "</p>" +
+      "<p> Happy Hour: " + data[i].happyHour + "</p>" +
+      "<p> Review: " + data[i].review + "</p>";
+
+    
+      // Create a marker for each place.
+        Marker =  new google.maps.Marker({
+        map: map,
+        icon: icon,
+        title: data.businessName,
+        position: position
+      });
+
+      infowindow = new google.maps.InfoWindow(); 
+      listenMarker(Marker, contentString);   
+
+    }
+
+  }); 
 
 	var initAutocomplete = function() {
 		//Searchbox
-		var searchBox = new google.maps.places.SearchBox(document.getElementById("map-search"));
+
+    var searchBox = new google.maps.places.SearchBox(document.getElementById("map-search"));
+		
 
 		//Need to set bias to current city and business type to bars only!!!
+
+
 		// Bias the SearchBox results towards current map's viewport.
 	  	map.addListener('bounds_changed', function() {
 	    searchBox.setBounds(map.getBounds());
@@ -30,12 +78,12 @@ $(document).ready(function(){
 	    	console.log(place);
 	    	if (places.length === 0) {
 	    		return;
+          //set alert for "NOT FOUND!"
 	    	}
 		});
 	};
 	
 	initAutocomplete();
-  	
 
   	//ROUTES
 
@@ -46,13 +94,11 @@ $(document).ready(function(){
 
   		$('#mark-name').val(place.name);
   		$('#mark-address').val(place.formatted_address);
-  		$('#mark-location').val(place.geometry.location);
   		$('#mark-lat').val(place.geometry.location.lat);
   		$('#mark-lng').val(place.geometry.location.lng);
 
   		var newMarkForm = $('#new-mark-form').serialize();
 
-  		console.log(newMarkForm);
 
   		$.ajax({
   			url: "/api/marks",
@@ -61,50 +107,75 @@ $(document).ready(function(){
   		})
   		.done(function(data){
 
-  			console.log("HELLOOOOOOOOOOOOOOOO" + data.location);
-  			console.log("HELLOOOOOOOOOOOOOOOO" + data.name);
- 
+        var lat = data.latitude;
+        var lng = data.longitude;
+        var position = {lat: lat, lng: lng};
 
-  			// For each place, get the icon, name and location.
-  				    var bounds = new google.maps.LatLngBounds();
-  				    function addMarker(place) {
-  				      var icon = {
-  				        url: place.icon,
-  				        size: new google.maps.Size(71, 71),
-  				        origin: new google.maps.Point(0, 0),
-  				        anchor: new google.maps.Point(17, 34),
-  				        scaledSize: new google.maps.Size(25, 25)
-  				      };
 
-  				      // Create a marker for each place.
-  				     new google.maps.Marker({
-  				        map: map,
-  				        icon: icon,
-  				        title: data.name,
-  				        position: data.location
-  				      });
+        // For each place, get the icon, name and location.
+              var bounds = new google.maps.LatLngBounds();
+              function addMarker(place) {
+                var icon = "/js/Pin.png";
 
-  				      if (data.viewport) {
-  				        // Only geocodes have viewport.
-  				        bounds.union(data.viewport);
-  				      } else {
-  				        bounds.extend(data.location);
-  				      }
-  				    }
-  				    addMarker(place);
-  				    map.fitBounds(bounds);
+                contentString = 
+                "<h3>" + data.businessName + "</h3>" +
+                "<h5>" + data.address + "</h5>" +
+                "<p> Crowd Level: " + data.crowdLevel + "</p>" +
+                "<p> Last Song Played: " + data.lastSong + "</p>" +
+                "<p> Happy Hour: " + data.happyHour + "</p>" +
+                "<p> Review: " + data.review + "</p>"
+                ;
+
+          
+                // Create a marker for each place.
+                  newMarker =  new google.maps.Marker({
+                  map: map,
+                  icon: icon,
+                  title: data.businessName,
+                  position: position
+                });
+
+                infowindow = new google.maps.InfoWindow();    
+
+
+                if (place.geometry.viewport) {
+                  // Only geocodes have viewport.
+                  bounds.union(place.geometry.viewport);
+                } else {
+                  bounds.extend(place.geometry.location);
+                }
+              }
+              addMarker(place);
+              listenMarker(newMarker, contentString);
+
+              // map.fitBounds(bounds);
+              $('#new-mark-form').trigger("reset");
+              $('#map-search').val("");
 
   		}).fail(function(data){
   			console.log(data);
   		});
   	});
 
+
+
   	//Sign Up Post
 
   	$('#sign-up-form').on('submit', function(e) {
   		e.preventDefault();
-  		var signUpForm = $(this).serialize();
-  		console.log(signUpForm);
+  		  var signUpForm = $(this).serialize();
+
+        $.ajax({
+            url: "/api/users",
+            type: "POST",
+            data: signUpForm
+        })
+        .done(function (data) { 
+          console.log(data);
+        })
+        .fail(function (data) { 
+          console.log(data);
+        });
   	});
 
   	//Login Post
@@ -116,9 +187,8 @@ $(document).ready(function(){
   	});
 
 
-
-
-
+    //
+    
 
   	//BOOTSTRAP MODAL
   	$('#myModal').on('shown.bs.modal', function () {
@@ -131,33 +201,3 @@ $(document).ready(function(){
 
 
 
-/// MARKER CODE
-
-// // For each place, get the icon, name and location.
-	    // var bounds = new google.maps.LatLngBounds();
-	    // function addMarker(place) {
-	    //   var icon = {
-	    //     url: place.icon,
-	    //     size: new google.maps.Size(71, 71),
-	    //     origin: new google.maps.Point(0, 0),
-	    //     anchor: new google.maps.Point(17, 34),
-	    //     scaledSize: new google.maps.Size(25, 25)
-	    //   };
-
-	    //   // Create a marker for each place.
-	    //  new google.maps.Marker({
-	    //     map: map,
-	    //     icon: icon,
-	    //     title: place.name,
-	    //     position: place.geometry.location
-	    //   });
-
-	    //   if (place.geometry.viewport) {
-	    //     // Only geocodes have viewport.
-	    //     bounds.union(place.geometry.viewport);
-	    //   } else {
-	    //     bounds.extend(place.geometry.location);
-	    //   }
-	    // }
-	    // addMarker(place);
-	    // map.fitBounds(bounds);

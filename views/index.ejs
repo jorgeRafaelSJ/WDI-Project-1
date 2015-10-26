@@ -54,14 +54,13 @@
 					<!-- Hidden  -->
 					<input type="hidden" id="mark-name" name="businessName" value="">
 					<input type="hidden" id="mark-address" name="address" value="">
-					<input type="hidden" id="mark-location" name="location" value="">
 					<input type="hidden" id="mark-lat" name="latitude" value="">
 					<input type="hidden" id="mark-lng" name="longitude" value="">
 
 					<!-- Visible -->
 					<select class="form-control" name="crowdLevel">
 					  <option>Can't Breathe</option>
-					  <option>Sweaty Mess</option>
+					  <option>Crowded</option>
 					  <option>Lively</option>
 					  <option>Chill</option>
 					  <option>Deserted</option>
@@ -75,9 +74,13 @@
 			</div><!-- form col ends -->
 
 			<div class="container col-sm-9" id="map-box">
-				<div id="map"></div>
-			</div>
+				<div id="map">
 
+				
+
+
+				</div>
+			</div>
 		</div><!-- row ends -->
 	</div><!-- form-group ends -->
 
@@ -94,7 +97,7 @@
 	      <form id="login-form">
 	      <div class="modal-body">
 	      	<input type="text" class="form-control" name="username" placeholder="Username">
-	      	<input type="text" class="form-control" name="password" placeholder="Password">	
+	      	<input type="password" class="form-control" name="password" placeholder="Password">	
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -117,9 +120,9 @@
 	      	<form id="sign-up-form">
 	      <div class="modal-body">
 	        <input type="text" class="form-control" name="username" placeholder="Username">
-	        <input type="text" class="form-control" name="email" placeholder="Email">
-	        <input type="text" class="form-control" name="password" placeholder="Password">
-	        <input type="text" class="form-control" name="confirmPassword" placeholder="Confirm Password">
+	        <input type="email" class="form-control" name="email" placeholder="Email">
+	        <input type="password" class="form-control" name="password" placeholder="Password">
+	        <input type="password" class="form-control" name="confirmPassword" placeholder="Confirm Password">
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

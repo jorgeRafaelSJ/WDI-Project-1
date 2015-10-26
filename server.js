@@ -8,6 +8,7 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 var db = require('./models/index.js');
 
+
 //uses and sets
 
 //API ENV setup
@@ -27,25 +28,48 @@ app.use(bodyParser.urlencoded({
 }));
 
 
-//route req-res
+//routes
 
-app.get ('/barmarks', function(req, res) {
-	res.render('index', {gMaps: gMaps});
+//main page GET
+
+app.get ('/barmarks', function (req, res) {
+
+		res.render('index', {gMaps: gMaps});
+	
 });
 
-app.post ('/api/marks', function(req, res) {
+//marks API GET
+
+app.get ('/api/marks', function (req, res) {
+	db.Mark.find({}, function (err, marks) {
+		res.json(marks);
+	});
+});
+
+//marks POST
+
+app.post ('/api/marks', function (req, res) {
 	
 	var newMark = req.body;
-	db.Mark.create(newMark, function(err, mark) {
+	db.Mark.create(newMark, function (err, mark) {
 		
 		if(err) { console.log(err); }
 
-		console.log(mark);
 		res.json(mark);
 	});
-
-
 });
+
+//Sign Up POST
+
+app.post ('/api/users', function (req, res) {
+	
+	var newUser = req.body;
+	db.User.createSecure(newUser.username, newUser.email, newUser.password, function (err, user) {
+	  res.json(user);
+	});
+});
+
+
 
 
 

@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/marks');
+mongoose.connect('mongodb://localhost/barmarks');
 
 var db = mongoose.connection;
 	db.on('error', console.error.bind(console, 'connection error:'));
@@ -9,3 +9,4 @@ var db = mongoose.connection;
 
 
 module.exports.Mark = require('./mark.js');
+module.exports.User = require('./user.js');
