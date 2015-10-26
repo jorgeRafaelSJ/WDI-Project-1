@@ -1,12 +1,12 @@
 //requires
 var express = require('express');
 var app = express();
-// set var db to require models index
 var ejs = require('ejs');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var bodyParser = require('body-parser');
 var db = require('./models/index.js');
+
 
 
 //uses and sets
@@ -27,8 +27,13 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+mongoose.connect(
+  process.env.MONGOLAB_URI ||
+  process.env.MONGOHQ_URL ||
+  'mongodb://localhost/barmarks' 
+);
 
-//routes
+//ROUTES
 
 //main page GET
 
@@ -89,6 +94,6 @@ app.post ('/api/users', function (req, res) {
 
 
 
-app.listen(3000, function () {
+app.listen( process.env.PORT || 3000, function () {
   console.log("UP AND RUNNING");
 });

@@ -22,8 +22,10 @@ $(document).ready(function(){
       infowindow.open(map, marker);
      });
   };
-   
-  $.get('/api/marks', function (data) {
+
+
+   //GET REQUEST TO LOAD MARKERS FROM SERVER
+   $.get('/api/marks', function (data) {
 
     for (var i = 0; i < data.length; i++) {
       
@@ -56,7 +58,9 @@ $(document).ready(function(){
 
   }); 
 
-	var initAutocomplete = function() {
+
+  // GOOGLE search field autocomplete and gets result objects
+	var initAutocomplete = function () {
 		//Searchbox
 
     var searchBox = new google.maps.places.SearchBox(document.getElementById("map-search"));
@@ -66,13 +70,13 @@ $(document).ready(function(){
 
 
 		// Bias the SearchBox results towards current map's viewport.
-	  	map.addListener('bounds_changed', function() {
+	  	map.addListener('bounds_changed', function () {
 	    searchBox.setBounds(map.getBounds());
 	  	});
 
 
 	  	// Listen for the event fired when the user selects a prediction and retrieve
-	  	searchBox.addListener('places_changed', function() {
+	  	searchBox.addListener('places_changed', function () {
 	    	var places = searchBox.getPlaces();
 	    	place = places[0];
 	    	console.log(place);
@@ -89,7 +93,7 @@ $(document).ready(function(){
 
   	//Mark Form Post
 
-  	$('#new-mark-form').on('submit', function(e) {
+  	$('#new-mark-form').on('submit', function (e) {
   		e.preventDefault();
 
   		$('#mark-name').val(place.name);
@@ -105,7 +109,7 @@ $(document).ready(function(){
   			type: "POST",
   			data: newMarkForm
   		})
-  		.done(function(data){
+  		.done(function (data){
 
         var lat = data.latitude;
         var lng = data.longitude;
@@ -152,7 +156,7 @@ $(document).ready(function(){
               $('#new-mark-form').trigger("reset");
               $('#map-search').val("");
 
-  		}).fail(function(data){
+  		}).fail(function (data){
   			console.log(data);
   		});
   	});
@@ -171,7 +175,8 @@ $(document).ready(function(){
             data: signUpForm
         })
         .done(function (data) { 
-          console.log(data);
+          $('#sign-up-form').trigger("reset");
+          $('#sign-up-modal').modal('hide');
         })
         .fail(function (data) { 
           console.log(data);
