@@ -35,9 +35,11 @@
 	    <!-- Collect the nav links, forms, and other content for toggling -->
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	     
-	      <ul class="nav navbar-nav navbar-right">
-	        <li><a href="#" id="sign-up-btn" data-toggle="modal" data-target="#sign-up-modal">Sign Up</a></li>
-	        <li><a href="#" id ="login-btn" data-toggle="modal" data-target="#login-modal">Login</a></li>
+	      <ul class="nav navbar-nav navbar-right" id="navbar-right">
+	    	<li><a href="#" class="not-logged-in" style="display:none" id="sign-up-btn" data-toggle="modal" data-target="#sign-up-modal">Sign Up</a></li>
+	        <li><a href="#" class="not-logged-in" style="display:none" id ="login-btn" data-toggle="modal" data-target="#login-modal">Login</a></li>
+	        <li><a href="#" class="logged-in" style="display:none" id="user-profile" ></a></li>
+	        <li><a href="#" class="logged-in" style="display:none" id="logout-btn" >Logout</a></li>
 	      </ul>
 	    </div><!-- /.navbar-collapse -->
 	  </div><!-- /.container-fluid -->
@@ -58,7 +60,7 @@
 					<input type="hidden" id="mark-lng" name="longitude" value="">
 
 					<!-- Visible -->
-					<select class="form-control" name="crowdLevel">
+					<select class="form-control" name="crowdLevel" required>
 					  <option>Can't Breathe</option>
 					  <option>Crowded</option>
 					  <option>Lively</option>
@@ -66,20 +68,15 @@
 					  <option>Deserted</option>
 					</select>
 
-					<input type="text" class="form-control" name="lastSong" placeholder="How's the music?">
-					<textarea class="form-control" rows="3" name="happyHour" placeholder="Whats the Happy Hour?"></textarea>
-					<textarea class="form-control" rows="3" name="review" placeholder="Bar Review"></textarea>
+					<input type="text" class="form-control" name="lastSong" placeholder="How's the music?" required>
+					<textarea class="form-control" rows="3" name="happyHour" placeholder="Whats the Happy Hour?" required></textarea>
+					<textarea class="form-control" rows="3" name="review" placeholder="Bar Review" required></textarea>
 					<button type="submit" class="btn btn-default form-control">Drink Up!</button>
 				</form>
 			</div><!-- form col ends -->
 
 			<div class="container col-sm-9" id="map-box">
-				<div id="map">
-
-				
-
-
-				</div>
+				<div id="map"></div>
 			</div>
 		</div><!-- row ends -->
 	</div><!-- form-group ends -->
@@ -96,8 +93,8 @@
 	      </div>
 	      <form id="login-form">
 	      <div class="modal-body">
-	      	<input type="email" class="form-control" name="email" placeholder="Email">
-	      	<input type="password" class="form-control" name="password" placeholder="Password">	
+	      	<input type="email" class="form-control" name="email" placeholder="Email" required>
+	      	<input type="password" class="form-control" name="password" placeholder="Password" required>	
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -119,10 +116,10 @@
 	      </div>
 	      	<form id="sign-up-form">
 	      <div class="modal-body">
-	        <input type="text" class="form-control" name="username" placeholder="Username">
-	        <input type="email" class="form-control" name="email" placeholder="Email">
-	        <input type="password" class="form-control" name="password" placeholder="Password">
-	        <input type="password" class="form-control" name="confirmPassword" placeholder="Confirm Password">
+	        <input type="text" class="form-control" name="username" placeholder="Username" required>
+	        <input type="email" class="form-control" name="email" placeholder="Email" required>
+	        <input type="password" class="form-control" name="password" placeholder="Password" required>
+	        <input type="password" class="form-control" name="confirmPassword" placeholder="Confirm Password" required>
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

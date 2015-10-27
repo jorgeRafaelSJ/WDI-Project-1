@@ -4,6 +4,30 @@ console.log("HEY HEY HEY");
 
 $(document).ready(function(){
 
+  function checkAuth() {
+   $.ajax({
+    url:'/current_user',
+    type: 'GET'
+   })
+   .done(function (data){
+    console.log(data);
+    if(data.user){
+      $('.not-logged-in').hide();
+      $('.logged-in').show();
+      $('#user-profile').text("Hello " + data.user.username + "!");
+    } else {
+      $('.not-logged-in').show();
+      $('.logged-in').hide();
+    }
+   })
+   .fail(function (data) {
+    console.log(data);
+   });
+  }
+
+  checkAuth();
+
+
 	//GOOGLE MAPS API GLOBAL VARIABLES *NEEDED*
 	var map = new google.maps.Map(document.getElementById('map'), {
 		center: { lat: 37.78, lng: -122.45},
@@ -14,6 +38,7 @@ $(document).ready(function(){
 	var place;
   var infowindow;
   var contentString;
+
   //listener function for markers has to be here for it to bind correct marker to infoWindow
   var listenMarker = function(marker, contentString){
 
@@ -89,13 +114,14 @@ $(document).ready(function(){
 	
 	initAutocomplete();
 
-  	//ROUTES
+  	//ROUTE REQUESTS ON EVENTS
 
   	//Mark Form Post
 
   	$('#new-mark-form').on('submit', function (e) {
   		e.preventDefault();
 
+      //adding value to hidden inputs in form 
   		$('#mark-name').val(place.name);
   		$('#mark-address').val(place.formatted_address);
   		$('#mark-lat').val(place.geometry.location.lat);
@@ -177,6 +203,9 @@ $(document).ready(function(){
         .done(function (data) { 
           $('#sign-up-form').trigger("reset");
           $('#sign-up-modal').modal('hide');
+          $('.not-logged-in').hide();
+          $('.logged-in').show();
+          $('#user-profile').text("Hello " + data.username + "!");
         })
         .fail(function (data) { 
           console.log(data);
@@ -190,12 +219,17 @@ $(document).ready(function(){
   		var loginForm = $(this).serialize();
 
       $.ajax({
-        url: "/sessions",
+        url: "/login",
         type: "POST",
         data: loginForm
       })
       .done( function (data) {
-        console.log(data);
+        console.log(data.username + " LOGGED IN!");
+        $('#login-form').trigger("reset");
+        $('#login-modal').modal('hide');
+        $('.not-logged-in').hide();
+        $('.logged-in').show();
+        $('#user-profile').text("Hello " + data.username + "!");
       })
       .fail( function (data) {
         console.log(data);
@@ -203,7 +237,24 @@ $(document).ready(function(){
   	});
 
 
-    //
+    //Logout get
+
+    $('#logout-btn').on('click', function (e) {
+      e.preventDefault();
+
+
+      $.ajax({
+        url: "/logout",
+        type: "GET"
+      }).done(function (data) {
+        console.log("LOGGED OUT!");
+        $('.not-logged-in').show();
+        $('.logged-in').hide();
+      }).fail(function (data) {
+        alert("Failed to log out!");
+      });
+    });
+
     
 
   	//BOOTSTRAP MODAL
