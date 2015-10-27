@@ -104,7 +104,7 @@ $(document).ready(function(){
 	  	searchBox.addListener('places_changed', function () {
 	    	var places = searchBox.getPlaces();
 	    	place = places[0];
-	    	console.log(place);
+        console.log(place);
 	    	if (places.length === 0) {
 	    		return;
           //set alert for "NOT FOUND!"
@@ -128,7 +128,7 @@ $(document).ready(function(){
   		$('#mark-lng').val(place.geometry.location.lng);
 
   		var newMarkForm = $('#new-mark-form').serialize();
-
+      console.log(newMarkForm);
 
   		$.ajax({
   			url: "/api/marks",
