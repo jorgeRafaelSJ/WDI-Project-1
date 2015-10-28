@@ -31,9 +31,8 @@ app.use(session({
   saveUninitialized: true,
   resave: true,
   secret: 'SuperSecretCookie',
-  cookie: { maxAge: 3 * 60 * 1000 } 
+  cookie: { maxAge: 30 * 60 * 1000 } 
 }));
-
 
 
 //ROUTES
@@ -64,8 +63,16 @@ app.post ('/api/marks', function (req, res) {
 	
 	var newMark = req.body;
 	db.Mark.create(newMark, function (err, mark) {
-		
-		if(err) { console.log(err); }
+		if(err) { 
+			console.log(err); 
+		}
+
+		if(req.session.user) {
+			db.User.findOne({_id:req.session.userId}, function (err, user) {
+				user.marks.push(mark._id);
+				user.save();
+			});
+		}
 		res.json(mark);
 	});
 });
@@ -76,9 +83,13 @@ app.post ('/api/users', function (req, res) {
 	
 	var newUser = req.body;
 	db.User.createSecure(newUser.username, newUser.email, newUser.password, function (err, user) {
-	  req.session.userId = user._id;
-	  req.session.user = user;
-	  res.json(user);
+	  	if(err) {
+	  		console.log(err);
+	  	} else if(user) {
+	  	req.session.userId = user._id;
+	  	req.session.user = user;
+	  	res.json(user);
+		}
 	});
 });
 
@@ -106,7 +117,20 @@ app.get('/logout', function (req, res) {
   // remove the session user id
  	req.session.userId = null;
  	req.session.user = null;
- 	res.render('index', {gMaps: gMaps});	
+ 	res.redirect('/');	
+});
+
+//Profile GET
+
+app.get('/profile', function (req, res) {
+	db.User.find({ _id: req.session.userId}, function (err, user) {
+		console.log(user);
+		if (err) { 
+			console.log(err);
+		} 
+		console.log(user[0]._id);
+		res.render('profile', {gMaps: gMaps, user: user});
+	});
 });
 
 

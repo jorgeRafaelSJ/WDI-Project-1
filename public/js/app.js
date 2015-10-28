@@ -10,11 +10,11 @@ $(document).ready(function(){
     type: 'GET'
    })
    .done(function (data){
-    console.log(data);
+
     if(data.user){
       $('.not-logged-in').hide();
       $('.logged-in').show();
-      $('#user-profile').text("Hello " + data.user.username + "!");
+      $('#greeting').text("Hello " + data.user.username + "!");
     } else {
       $('.not-logged-in').show();
       $('.logged-in').hide();
@@ -63,7 +63,7 @@ $(document).ready(function(){
       "<h3>" + data[i].businessName + "</h3>" +
       "<h5>" + data[i].address + "</h5>" +
       "<p> Crowd Level: " + data[i].crowdLevel + "</p>" +
-      "<p> Last Song Played: " + data[i].lastSong + "</p>" +
+      "<p> Music: " + data[i].lastSong + "</p>" +
       "<p> Happy Hour: " + data[i].happyHour + "</p>" +
       "<p> Review: " + data[i].review + "</p>";
 
@@ -85,34 +85,38 @@ $(document).ready(function(){
 
 
   // GOOGLE search field autocomplete and gets result objects
+
+  
 	var initAutocomplete = function () {
-		//Searchbox
+      
+      //Searchbox
 
-    var searchBox = new google.maps.places.SearchBox(document.getElementById("map-search"));
-		
+      var searchBox = new google.maps.places.SearchBox(document.getElementById("map-search"));
+      
 
-		//Need to set bias to current city and business type to bars only!!!
-
-
-		// Bias the SearchBox results towards current map's viewport.
-	  	map.addListener('bounds_changed', function () {
-	    searchBox.setBounds(map.getBounds());
-	  	});
+      //Need to set bias to current city and business type to bars only!!!
 
 
-	  	// Listen for the event fired when the user selects a prediction and retrieve
-	  	searchBox.addListener('places_changed', function () {
-	    	var places = searchBox.getPlaces();
-	    	place = places[0];
-        console.log(place);
-	    	if (places.length === 0) {
-	    		return;
-          //set alert for "NOT FOUND!"
-	    	}
-		});
-	};
-	
-	initAutocomplete();
+      // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function () {
+        searchBox.setBounds(map.getBounds());
+        });
+
+
+        // Listen for the event fired when the user selects a prediction and retrieve
+        searchBox.addListener('places_changed', function () {
+          var places = searchBox.getPlaces();
+          place = places[0];
+          console.log(place);
+          if (places.length === 0) {
+            return;
+            //set alert for "NOT FOUND!"
+          }
+      });
+    };
+    
+    initAutocomplete();
+
 
   	//ROUTE REQUESTS ON EVENTS
 
@@ -128,7 +132,6 @@ $(document).ready(function(){
   		$('#mark-lng').val(place.geometry.location.lng);
 
   		var newMarkForm = $('#new-mark-form').serialize();
-      console.log(newMarkForm);
 
   		$.ajax({
   			url: "/api/marks",
@@ -151,10 +154,9 @@ $(document).ready(function(){
                 "<h3>" + data.businessName + "</h3>" +
                 "<h5>" + data.address + "</h5>" +
                 "<p> Crowd Level: " + data.crowdLevel + "</p>" +
-                "<p> Last Song Played: " + data.lastSong + "</p>" +
+                "<p> Music: " + data.lastSong + "</p>" +
                 "<p> Happy Hour: " + data.happyHour + "</p>" +
-                "<p> Review: " + data.review + "</p>"
-                ;
+                "<p> Review: " + data.review + "</p>";
 
           
                 // Create a marker for each place.
@@ -193,6 +195,12 @@ $(document).ready(function(){
 
   	$('#sign-up-form').on('submit', function(e) {
   		e.preventDefault();
+
+            var password = $('#password').val();
+            console.log(password);
+            var confirmPassword = $('#confirmPassword').val();
+          if(password === confirmPassword) {
+
   		  var signUpForm = $(this).serialize();
 
         $.ajax({
@@ -210,12 +218,16 @@ $(document).ready(function(){
         .fail(function (data) { 
           console.log(data);
         });
+      } else {
+        alert("PASSWORDS NOT MATCHING!");
+      }
   	});
 
   	//Login Post
 
   	 	$('#login-form').on('submit', function(e) {
-  		e.preventDefault();
+
+      e.preventDefault();
   		var loginForm = $(this).serialize();
 
       $.ajax({
@@ -229,12 +241,14 @@ $(document).ready(function(){
         $('#login-modal').modal('hide');
         $('.not-logged-in').hide();
         $('.logged-in').show();
-        $('#user-profile').text("Hello " + data.username + "!");
+        $('#greeting').text("Hello " + data.username + "!");
       })
       .fail( function (data) {
         console.log(data);
       });
   	});
+
+
 
 
     //Logout get

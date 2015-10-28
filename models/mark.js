@@ -9,6 +9,7 @@ var MarkSchema = mongoose.Schema({
     lastSong: String,
     happyHour: String,
     review: String,
+    createdAt: {type: Date, required: true, expiresAfterSeconds: 3600, default: Date.now}
 });
 
 var Mark = mongoose.model('Mark', MarkSchema);

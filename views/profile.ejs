@@ -21,6 +21,28 @@
     <script src="/js/app.js"></script>
 </head>
 <body>
-<h1>HELLO</h1>
+
+<!-- NAV BAR -->
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">Bar Marks</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+     
+      <ul class="nav navbar-nav navbar-right" id="navbar-right">
+    	<li><a href="#" class="not-logged-in" style="display:none" id="sign-up-btn" data-toggle="modal" data-target="#sign-up-modal">Sign Up</a></li>
+        <li><a href="#" class="not-logged-in" style="display:none" id ="login-btn" data-toggle="modal" data-target="#login-modal">Login</a></li>
+        <li><a href="#" class="logged-in" style="display:none" id="greeting" ></a></li>
+        <li><a href="/profile" class="logged-in" style="display:none" id="user-profile" >Profile</a></li>
+        <li><a href="/logout" class="logged-in" style="display:none" id="logout-btn" >Logout</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
 </body>
 </html>
