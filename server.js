@@ -69,7 +69,7 @@ app.post ('/api/marks', function (req, res) {
 
 		if(req.session.user) {
 			db.User.findOne({_id:req.session.userId}, function (err, user) {
-				user.marks.push(mark._id);
+				user.marks.push(mark);
 				user.save();
 			});
 		}
@@ -123,12 +123,13 @@ app.get('/logout', function (req, res) {
 //Profile GET
 
 app.get('/profile', function (req, res) {
-	db.User.find({ _id: req.session.userId}, function (err, user) {
-		console.log(user);
+	db.User.findOne({ _id: req.session.userId}) 
+		.populate('marks')
+		.exec( function (err, user) {
 		if (err) { 
 			console.log(err);
-		} 
-		console.log(user[0]._id);
+		}
+		console.log(user);
 		res.render('profile', {gMaps: gMaps, user: user});
 	});
 });

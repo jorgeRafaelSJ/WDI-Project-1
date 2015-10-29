@@ -17,7 +17,7 @@
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<% gMaps %>&sensor=false&libraries=places"></script>
 
     <!-- APP SCRYPTS -->
-
+    <script src="/js/auth_val.js"></script>
     <script src="/js/app.js"></script>
 </head>
 <body>
@@ -43,6 +43,26 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+
+<!-- List of User's Active Posts -->
+
+<div class="container col-sm-6 col-sm-offset-3">
+
+  <h1><%=user.username%>'s active marks:</h1>
+  <%if(user.marks.length > 0) { %>
+  <% for(var i = user.marks.length-1; i >= 0; i--) { %>
+  <div class="active-marks">
+    <h3><%= user.marks[i].businessName %></h3><br>
+    <h5><%= user.marks[i].address %></h5><br>
+    <p>Crowd Level: <%= user.marks[i].crowdLevel %></p><br>
+    <p>Music review: <%= user.marks[i].lastSong %></p><br>
+    <p>Happy Hour: <%= user.marks[i].happyHour %></p><br>
+    <p>Review: <%= user.marks[i].review %></p><br>
+   </div>
+    <% } %> 
+  <% } %>
+</div>
+
 
 </body>
 </html>

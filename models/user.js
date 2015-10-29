@@ -2,10 +2,16 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt');
 
+//set email to lowercase
+function toLower (v) {
+  return v.toLowerCase();
+} 
+
 var UserSchema = mongoose.Schema({
 	username: {	type: String,
 				required: true,
-				unique: true },
+				unique: true,
+        set: toLower },
 	email: { type: String,
         required: true,
         unique: true},
@@ -13,6 +19,7 @@ var UserSchema = mongoose.Schema({
 	marks: [{type: Schema.Types.ObjectId, ref: 'Mark'}]
 });
 
+//create secure user by salting and hashing password
 UserSchema.statics.createSecure = function (username, email, password, callback) {
 
 
@@ -31,6 +38,8 @@ var UserModel = this;
   });
 };
 
+
+//authenticate login- looks for email, runs function to compare bcrypted passwords 
 UserSchema.statics.authenticate = function (email, password, callback) {
  // find user by email entered at log in
  this.findOne({email: email}, function (err, foundUser) {
@@ -48,9 +57,7 @@ UserSchema.statics.authenticate = function (email, password, callback) {
 };
 
 
-
-
-
+//function to compare bcrypted passwords from data storage and user entry
 UserSchema.methods.checkPassword = function (password) {
   // run hashing algorithm (with salt) on password user enters in order to compare with `passwordDigest`
   return bcrypt.compareSync(password, this.passwordDigest);

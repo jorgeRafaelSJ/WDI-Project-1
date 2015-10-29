@@ -1,31 +1,8 @@
 console.log("HEY HEY HEY");
 
 
-
 $(document).ready(function(){
 
-  function checkAuth() {
-   $.ajax({
-    url:'/current_user',
-    type: 'GET'
-   })
-   .done(function (data){
-
-    if(data.user){
-      $('.not-logged-in').hide();
-      $('.logged-in').show();
-      $('#greeting').text("Hello " + data.user.username + "!");
-    } else {
-      $('.not-logged-in').show();
-      $('.logged-in').hide();
-    }
-   })
-   .fail(function (data) {
-    console.log(data);
-   });
-  }
-
-  checkAuth();
 
 
 	//GOOGLE MAPS API GLOBAL VARIABLES *NEEDED*
@@ -76,7 +53,7 @@ $(document).ready(function(){
         position: position
       });
 
-      infowindow = new google.maps.InfoWindow(); 
+      infowindow = new google.maps.InfoWindow({maxWidth: 350}); 
       listenMarker(Marker, contentString);   
 
     }
@@ -86,7 +63,7 @@ $(document).ready(function(){
 
   // GOOGLE search field autocomplete and gets result objects
 
-  
+
 	var initAutocomplete = function () {
       
       //Searchbox
@@ -167,20 +144,13 @@ $(document).ready(function(){
                   position: position
                 });
 
-                infowindow = new google.maps.InfoWindow();    
-
-
-                if (place.geometry.viewport) {
-                  // Only geocodes have viewport.
-                  bounds.union(place.geometry.viewport);
-                } else {
-                  bounds.extend(place.geometry.location);
-                }
+                infowindow = new google.maps.InfoWindow({maxWidth: 350});
+              
               }
               addMarker(place);
               listenMarker(newMarker, contentString);
+            
 
-              // map.fitBounds(bounds);
               $('#new-mark-form').trigger("reset");
               $('#map-search').val("");
 
@@ -188,94 +158,7 @@ $(document).ready(function(){
   			console.log(data);
   		});
   	});
-
-
-
-  	//Sign Up Post
-
-  	$('#sign-up-form').on('submit', function(e) {
-  		e.preventDefault();
-
-            var password = $('#password').val();
-            console.log(password);
-            var confirmPassword = $('#confirmPassword').val();
-          if(password === confirmPassword) {
-
-  		  var signUpForm = $(this).serialize();
-
-        $.ajax({
-            url: "/api/users",
-            type: "POST",
-            data: signUpForm
-        })
-        .done(function (data) { 
-          $('#sign-up-form').trigger("reset");
-          $('#sign-up-modal').modal('hide');
-          $('.not-logged-in').hide();
-          $('.logged-in').show();
-          $('#user-profile').text("Hello " + data.username + "!");
-        })
-        .fail(function (data) { 
-          console.log(data);
-        });
-      } else {
-        alert("PASSWORDS NOT MATCHING!");
-      }
-  	});
-
-  	//Login Post
-
-  	 	$('#login-form').on('submit', function(e) {
-
-      e.preventDefault();
-  		var loginForm = $(this).serialize();
-
-      $.ajax({
-        url: "/login",
-        type: "POST",
-        data: loginForm
-      })
-      .done( function (data) {
-        console.log(data.username + " LOGGED IN!");
-        $('#login-form').trigger("reset");
-        $('#login-modal').modal('hide');
-        $('.not-logged-in').hide();
-        $('.logged-in').show();
-        $('#greeting').text("Hello " + data.username + "!");
-      })
-      .fail( function (data) {
-        console.log(data);
-      });
-  	});
-
-
-
-
-    //Logout get
-
-    $('#logout-btn').on('click', function (e) {
-      e.preventDefault();
-
-
-      $.ajax({
-        url: "/logout",
-        type: "GET"
-      }).done(function (data) {
-        console.log("LOGGED OUT!");
-        $('.not-logged-in').show();
-        $('.logged-in').hide();
-      }).fail(function (data) {
-        alert("Failed to log out!");
-      });
-    });
-
-    
-
-  	//BOOTSTRAP MODAL
-  	$('#myModal').on('shown.bs.modal', function () {
-    	$('#myInput').focus();
-  	}); 
-
+  	
 
 }); //end of getready function
 

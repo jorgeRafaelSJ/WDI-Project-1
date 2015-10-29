@@ -15,10 +15,12 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<% gMaps %>&sensor=false&libraries=places"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"></script>
 
     <!-- APP SCRYPTS -->
-
+	<script src="/js/auth_val.js"></script>
     <script src="/js/app.js"></script>
+     
 </head>
 
 
@@ -39,7 +41,7 @@
 	    	<li><a href="#" class="not-logged-in" style="display:none" id="sign-up-btn" data-toggle="modal" data-target="#sign-up-modal">Sign Up</a></li>
 	        <li><a href="#" class="not-logged-in" style="display:none" id ="login-btn" data-toggle="modal" data-target="#login-modal">Login</a></li>
 	        <li><a href="#" class="logged-in" style="display:none" id="greeting" ></a></li>
-	        <li><a href="/profile" class="logged-in" style="display:none" id="user-profile" >Profile</a></li>
+	        <li><a href="/profile" class="logged-in" style="display:none" id="user-profile" >View Active Marks</a></li>
 	        <li><a href="#" class="logged-in" style="display:none" id="logout-btn" >Logout</a></li>
 	      </ul>
 	    </div><!-- /.navbar-collapse -->
@@ -69,9 +71,9 @@
 					  <option>Deserted</option>
 					</select>
 
-					<input type="text" class="form-control" name="lastSong" placeholder="How's the music?" required>
-					<textarea class="form-control" rows="3" name="happyHour" placeholder="Whats the Happy Hour?" required></textarea>
-					<textarea class="form-control" rows="3" name="review" placeholder="Bar Review" required></textarea>
+					<input type="text" class="form-control" name="lastSong" placeholder="How's the music?">
+					<textarea class="form-control" rows="3" name="happyHour" placeholder="Whats the Happy Hour?"></textarea>
+					<textarea class="form-control" rows="3" name="review" placeholder="Bar Review"></textarea>
 					<button type="submit" class="btn btn-default form-control">Drink Up!</button>
 				</form>
 			</div><!-- form col ends -->
@@ -94,8 +96,8 @@
 	      </div>
 	      <form id="login-form">
 	      <div class="modal-body">
-	      	<input type="email" class="form-control" name="email" placeholder="Email" required>
-	      	<input type="password" class="form-control" name="password" placeholder="Password" required>	
+	      	<input type="email" class="form-control" name="email" placeholder="Email">
+	      	<input type="password" class="form-control" name="password" placeholder="Password">	
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -117,10 +119,10 @@
 	      </div>
 	      	<form id="sign-up-form">
 	      <div class="modal-body">
-	        <input type="text" class="form-control" name="username" placeholder="Username" required>
-	        <input type="email" class="form-control" name="email" placeholder="Email" required>
-	        <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-	        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
+	        <input type="text" class="form-control" name="username" placeholder="Username">
+	        <input type="email" class="form-control" name="email" placeholder="Email">
+	        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+	        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password">
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
