@@ -100,7 +100,7 @@ app.post('/login', function (req, res) {
   // call authenticate function to check if password user entered is correct
   db.User.authenticate(req.body.email, req.body.password, function (err, user) {
   	if(err) { 
-  		console.log(err); 
+  		res.json({ msg: err }); 
   	} else if(user) {
   	req.session.userId = user._id;
   	req.session.user = user;

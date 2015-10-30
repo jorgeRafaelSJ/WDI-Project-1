@@ -33,11 +33,11 @@
 <!-- List of User's Active Posts -->
 
 <div class="container col-sm-8 col-sm-offset-2">
+  
+<h3 id="profile-title"><%=user.username%>'s active marks:</h3>
 
-  <h3 id="profile-title"><%=user.username%>'s active marks:</h3>
-  <%if(user.marks.length > 0) { %>
-  <% for(var i = user.marks.length-1; i >= 0; i--) { %>
-
+<% for(var i = user.marks.length-1; i >= 0; i--) { %>
+  
     <div class="demo-card-wide mdl-card mdl-shadow--2dp" id="<%=user.marks[i]._id%>">
       <div class="mdl-card__title">
         <h2 class="mdl-card__title-text"><%= user.marks[i].businessName %></h2>
@@ -56,8 +56,9 @@
         <button data-id="<%=user.marks[i]._id%>"class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect pull-right delete-mark">DELETE</button>
       </div>
     </div>
-    <% } %> 
-  <% } %>
+
+<% } %>
+
 </div>
 
 </body>

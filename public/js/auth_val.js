@@ -131,12 +131,17 @@ $(document).ready(function(){
       data: loginForm
     })
     .done( function (data) {
-      console.log(data.username + " LOGGED IN!");
-      $('#login-form').trigger("reset");
-      $('#login-modal').modal('hide');
-      $('.not-logged-in').hide();
-      $('.logged-in').show();
-      $('#greeting').text("Hello " + data.username + "!");
+      if(data.msg) {
+        alert(data.msg);
+
+      } else {
+        console.log(data.username + " LOGGED IN!");
+        $('#login-form').trigger("reset");
+        $('#login-modal').modal('hide');
+        $('.not-logged-in').hide();
+        $('.logged-in').show();
+        $('#greeting').text("Hello " + data.username + "!");
+      }
     })
     .fail( function (data) {
       console.log(data);
