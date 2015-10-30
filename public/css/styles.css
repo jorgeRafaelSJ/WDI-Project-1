@@ -1,16 +1,133 @@
 body {
+	background-color: #f5f5f5;
 }
 html, body {
 	height: 100%;
 	margin: 0;
 	padding: 0;
+	font-family: 'Open Sans Condensed', sans-serif;
+	font-weight: 500;
+}
+
+#navbar-container {
+	background-color: #e5e5e5;
+	height: 70px;
+	padding-top: 10px;
+	border-radius: 0;
+	border-bottom: 1px solid #aaa;
+	margin-bottom: 0;
+	vertical-align: center;
+}
+.navbar-brand {
+	font-size: 40px;
+	border-right: 1px solid #aaa;
+	padding-top: 15px;
+	padding-bottom: 10px;
+	font-weight: 400;
+	
+}
+.btn {
+	border-radius: 0;
+}
+#sign-up-btn {
+	border-right: 1px solid #aaa;
+}
+.nav-bar-btn {
+	font-size: 20px;
+}
+#greeting {
+	border-right: 1px solid #aaa;
+}
+#user-profile {
+	border-right: 1px solid #aaa;
+}
+.form-control {
+	border-radius: 0;
+}
+.map-form {
+	margin-top: 30px;
+}
+#map-submit-btn {
+	color: #fff;
+	font-size: 16px;
+	font-weight: bold;
+	background-color: #5B5B5B;
+	border: 1px solid #555;
+}
+#map-submit-btn:hover {
+	background-color: #8B8B8B;
+}
+label {
+	color: #777;
+	font-family: 'Open Sans Condensed', sans-serif;
+	font-weight: 400;
+	font-size: 16px;
 }
 #map-box {
-	height: 550px;
+	height: 600px;
+	padding: 0;
+	border-left: 1px solid #aaa;
 }
 #map {
 	height: 100%;
 }
-.form-control {
-	margin-bottom: 30px;
+.modal-content {
+	border-radius: 0;
+}
+.modal-title {
+	color: #555;
+}
+.modal-form {
+	margin-top: 30px;
+}
+.modal-submit { 
+	background-color: #5B5B5B;
+	border: none;
+}
+.modal-submit:hover {
+	background-color: #8B8B8B;
+}
+#profile-title {
+	color: #777;
+	border-bottom: 1px solid #aaa;
+	font-weight: 200;
+	font-size: 30px;
+}
+.mdl-card {
+	margin: 10px auto 10px auto ;
+}
+.mdl-card__title-text {
+	color: #555;
+	margin-right: 10px;
+	padding-bottom: 0;
+}
+.mdl-card__title {
+	padding-bottom: 0;
+}
+.mdl-card__subtitle-text {
+	margin-left: 10px;
+}
+.mdl-card__supporting-text {
+	padding-top: 0;
+
+}
+
+.demo-card-wide.mdl-card {
+	width: 600px;
+}
+.demo-card-wide > .mdl-card__menu {
+  	color: #777;
+}
+.mark-item {
+	list-style: none;
+	font-size: 16px;
+}
+.mark-title {
+	margin-bottom: 0;
+}
+.mark-address {
+	margin-top: 0;
+}
+.mark-li {
+	list-style: none;
 }

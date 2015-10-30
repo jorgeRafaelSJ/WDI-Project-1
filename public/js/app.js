@@ -26,8 +26,8 @@ $(document).ready(function(){
   };
 
 
-   //GET REQUEST TO LOAD MARKERS FROM SERVER
-   $.get('/api/marks', function (data) {
+  //GET REQUEST TO LOAD MARKERS FROM SERVER
+  $.get('/api/marks', function (data) {
 
     for (var i = 0; i < data.length; i++) {
       
@@ -37,12 +37,12 @@ $(document).ready(function(){
       var icon = "/js/Pin.png";
 
       contentString = 
-      "<h3>" + data[i].businessName + "</h3>" +
-      "<h5>" + data[i].address + "</h5>" +
-      "<p> Crowd Level: " + data[i].crowdLevel + "</p>" +
-      "<p> Music: " + data[i].lastSong + "</p>" +
-      "<p> Happy Hour: " + data[i].happyHour + "</p>" +
-      "<p> Review: " + data[i].review + "</p>";
+      "<h4 class='mark-title'>" + data[i].businessName + "</h4>" +
+      "<h6 class='mark-address'>" + data[i].address + "</h6>" +
+      "<li class='mark-li'> Crowd Level: " + data[i].crowdLevel + "</li>" +
+      "<li class='mark-li'> Music: " + data[i].lastSong + "</li>" +
+      "<li class='mark-li'> Happy Hour: " + data[i].happyHour + "</li>" +
+      "<li class='mark-li'> Review: " + data[i].review + "</li>";
 
     
       // Create a marker for each place.
@@ -55,9 +55,7 @@ $(document).ready(function(){
 
       infowindow = new google.maps.InfoWindow({maxWidth: 350}); 
       listenMarker(Marker, contentString);   
-
     }
-
   }); 
 
 
@@ -66,100 +64,105 @@ $(document).ready(function(){
 
 	var initAutocomplete = function () {
       
-      //Searchbox
-
-      var searchBox = new google.maps.places.SearchBox(document.getElementById("map-search"));
+    //Searchbox
+    var searchBox = new google.maps.places.SearchBox(document.getElementById("map-search"));
       
 
-      //Need to set bias to current city and business type to bars only!!!
+    //Need to set bias to current city and business type to bars only!!!
 
 
-      // Bias the SearchBox results towards current map's viewport.
-        map.addListener('bounds_changed', function () {
-        searchBox.setBounds(map.getBounds());
-        });
-
-
-        // Listen for the event fired when the user selects a prediction and retrieve
-        searchBox.addListener('places_changed', function () {
-          var places = searchBox.getPlaces();
-          place = places[0];
-          console.log(place);
-          if (places.length === 0) {
-            return;
-            //set alert for "NOT FOUND!"
-          }
+    // Bias the SearchBox results towards current map's viewport.
+      map.addListener('bounds_changed', function () {
+      searchBox.setBounds(map.getBounds());
       });
-    };
+
+
+      // Listen for the event fired when the user selects a prediction and retrieve
+  searchBox.addListener('places_changed', function () {
+    var places = searchBox.getPlaces();
+      place = places[0];
+
+      if (places.length === 0) {
+        return;
+         
+      }
+    });
+  };
     
-    initAutocomplete();
+  initAutocomplete();
 
 
-  	//ROUTE REQUESTS ON EVENTS
 
-  	//Mark Form Post
+	//Mark Form Post
 
-  	$('#new-mark-form').on('submit', function (e) {
-  		e.preventDefault();
+	$('#new-mark-form').on('submit', function (e) {
+		e.preventDefault();
 
-      //adding value to hidden inputs in form 
-  		$('#mark-name').val(place.name);
-  		$('#mark-address').val(place.formatted_address);
-  		$('#mark-lat').val(place.geometry.location.lat);
-  		$('#mark-lng').val(place.geometry.location.lng);
+    //adding value to hidden inputs in form 
+		$('#mark-name').val(place.name);
+		$('#mark-address').val(place.formatted_address);
+		$('#mark-lat').val(place.geometry.location.lat);
+		$('#mark-lng').val(place.geometry.location.lng);
 
-  		var newMarkForm = $('#new-mark-form').serialize();
+		var newMarkForm = $('#new-mark-form').serialize();
 
-  		$.ajax({
+		$.ajax({
   			url: "/api/marks",
   			type: "POST",
   			data: newMarkForm
-  		})
-  		.done(function (data){
+		  })
+		  .done(function (data){
 
-        var lat = data.latitude;
-        var lng = data.longitude;
-        var position = {lat: lat, lng: lng};
+      var lat = data.latitude;
+      var lng = data.longitude;
+      var position = {lat: lat, lng: lng};
 
 
-        // For each place, get the icon, name and location.
-              var bounds = new google.maps.LatLngBounds();
-              function addMarker(place) {
-                var icon = "/js/Pin.png";
+      // For each place, get the icon, name and location.
+      var bounds = new google.maps.LatLngBounds();
+      function addMarker(place) {
+        var icon = "/js/Pin.png";
 
-                contentString = 
-                "<h3>" + data.businessName + "</h3>" +
-                "<h5>" + data.address + "</h5>" +
-                "<p> Crowd Level: " + data.crowdLevel + "</p>" +
-                "<p> Music: " + data.lastSong + "</p>" +
-                "<p> Happy Hour: " + data.happyHour + "</p>" +
-                "<p> Review: " + data.review + "</p>";
+        contentString = 
+        "<h4 class='mark-title'>" + data.businessName + "</h4>" +
+        "<h6 class='mark-address'>" + data.address + "</h6>" +
+        "<li class='mark-li'> Crowd Level: " + data.crowdLevel + "</li>" +
+        "<li class='mark-li'> Music: " + data.lastSong + "</li>" +
+        "<li class='mark-li'> Happy Hour: " + data.happyHour + "</li>" +
+        "<li class='mark-li'> Review: " + data.review + "</li>";
 
-          
-                // Create a marker for each place.
-                  newMarker =  new google.maps.Marker({
-                  map: map,
-                  icon: icon,
-                  title: data.businessName,
-                  position: position
-                });
+  
+        // Create a marker for each place.
+        newMarker =  new google.maps.Marker({
+          map: map,
+          icon: icon,
+          title: data.businessName,
+          position: position
+        });
 
-                infowindow = new google.maps.InfoWindow({maxWidth: 350});
-              
-              }
-              addMarker(place);
-              listenMarker(newMarker, contentString);
-            
+        infowindow = new google.maps.InfoWindow({maxWidth: 350});
+        
+      }
+      addMarker(place);
+      listenMarker(newMarker, contentString);
 
-              $('#new-mark-form').trigger("reset");
-              $('#map-search').val("");
+      $('#new-mark-form').trigger("reset");
+      $('#map-search').val("");
 
-  		}).fail(function (data){
-  			console.log(data);
-  		});
-  	});
-  	
+      })
+      .fail(function (data){
+  	   console.log(data);
+    });
+	});
 
+  $('#delete-mark').on('click', function(e) { 
+    e.preventDefault();
+
+    $.ajax({
+      url: '/delete-mark'
+      
+    });
+  });
 }); //end of getready function
 
 

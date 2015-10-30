@@ -5,16 +5,24 @@
 	<title>Project 1</title>
 
 	<!-- VENDOR STYLES -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.indigo-pink.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+  
 	<!-- APP STYLES -->
     <link rel="stylesheet" href="css/styles.css">
+
+
+ 
 
 	<!-- VENDOR SCRIPTS -->
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<% gMaps %>&sensor=false&libraries=places"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=<% gMaps %>&sensor=false&libraries=places"></script>
+  <script src="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.min.js"></script>
+    
 
     <!-- APP SCRYPTS -->
     <script src="/js/auth_val.js"></script>
@@ -22,47 +30,39 @@
 </head>
 <body>
 
-<!-- NAV BAR -->
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <a class="navbar-brand" href="/">Bar Marks</a>
-    </div>
+    <!-- Nav-bar partial -->
+    <% include ./_nav-bar.ejs %>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-     
-      <ul class="nav navbar-nav navbar-right" id="navbar-right">
-    	<li><a href="#" class="not-logged-in" style="display:none" id="sign-up-btn" data-toggle="modal" data-target="#sign-up-modal">Sign Up</a></li>
-        <li><a href="#" class="not-logged-in" style="display:none" id ="login-btn" data-toggle="modal" data-target="#login-modal">Login</a></li>
-        <li><a href="#" class="logged-in" style="display:none" id="greeting" ></a></li>
-        <li><a href="/profile" class="logged-in" style="display:none" id="user-profile" >Profile</a></li>
-        <li><a href="/logout" class="logged-in" style="display:none" id="logout-btn" >Logout</a></li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
 
 <!-- List of User's Active Posts -->
 
-<div class="container col-sm-6 col-sm-offset-3">
+<div class="container col-sm-8 col-sm-offset-2">
 
-  <h1><%=user.username%>'s active marks:</h1>
+  <h3 id="profile-title"><%=user.username%>'s active marks:</h3>
   <%if(user.marks.length > 0) { %>
   <% for(var i = user.marks.length-1; i >= 0; i--) { %>
-  <div class="active-marks">
-    <h3><%= user.marks[i].businessName %></h3><br>
-    <h5><%= user.marks[i].address %></h5><br>
-    <p>Crowd Level: <%= user.marks[i].crowdLevel %></p><br>
-    <p>Music review: <%= user.marks[i].lastSong %></p><br>
-    <p>Happy Hour: <%= user.marks[i].happyHour %></p><br>
-    <p>Review: <%= user.marks[i].review %></p><br>
-   </div>
+
+    <div class="demo-card-wide mdl-card mdl-shadow--2dp">
+      <div class="mdl-card__title">
+        <h2 class="mdl-card__title-text"><%= user.marks[i].businessName %></h2>
+      </div>
+    
+      <div class="mdl-card__supporting-text">
+        <h4 class="mdl-card__subtitle-text"><%= user.marks[i].address %></h4>
+        <ul>
+          <li class="mark-item">Crowd Level: <%= user.marks[i].crowdLevel %></li>
+          <li class="mark-item">Music review: <%= user.marks[i].lastSong %></li>
+          <li class="mark-item">Happy Hour: <%= user.marks[i].happyHour %></li>
+          <li class="mark-item">Review: <%= user.marks[i].review %></li>
+        </ul>
+      </div>
+      <div class="mdl-card__actions mdl-card--border">
+        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect pull-right" id="delete-mark">DELETE</a>
+      </div>
+    </div>
     <% } %> 
   <% } %>
 </div>
-
 
 </body>
 </html>

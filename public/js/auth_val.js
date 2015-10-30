@@ -144,26 +144,6 @@ $(document).ready(function(){
   });
 
 
-  //Logout get
-
-  $('#logout-btn').on('click', function (e) {
-    e.preventDefault();
-
-
-    $.ajax({
-      url: "/logout",
-      type: "GET"
-    }).done(function (data) {
-      console.log("LOGGED OUT!");
-      $('.not-logged-in').show();
-      $('.logged-in').hide();
-    }).fail(function (data) {
-      alert("Failed to log out!");
-    });
-  });
-
-  
-
   //BOOTSTRAP MODAL
   $('#myModal').on('shown.bs.modal', function () {
     $('#myInput').focus();
