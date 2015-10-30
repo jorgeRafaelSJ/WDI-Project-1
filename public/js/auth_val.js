@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-//check to see who's online
+  //check to see who's online
   function checkAuth() {
    $.ajax({
     url:'/current_user',

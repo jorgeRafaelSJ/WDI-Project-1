@@ -134,6 +134,20 @@ app.get('/profile', function (req, res) {
 	});
 });
 
+// Mark DELETE
+
+app.delete('/profile/:_id', function (req, res) {
+			console.log("HELLLLOOOOOOO",req.params._id);
+
+	db.Mark.findOne({_id: req.params._id}, function (err, mark) {
+		if(err) console.log(err);
+		console.log("WOOOOOOO");
+		console.log(mark);
+		mark.remove();
+		res.json("Mark has been deleted!");
+	});
+
+});
 
 
 

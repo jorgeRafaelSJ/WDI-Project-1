@@ -4,7 +4,6 @@ console.log("HEY HEY HEY");
 $(document).ready(function(){
 
 
-
 	//GOOGLE MAPS API GLOBAL VARIABLES *NEEDED*
 	var map = new google.maps.Map(document.getElementById('map'), {
 		center: { lat: 37.78, lng: -122.45},
@@ -154,15 +153,6 @@ $(document).ready(function(){
   	   console.log(data);
     });
 	});
-
-  $('#delete-mark').on('click', function(e) { 
-    e.preventDefault();
-
-    $.ajax({
-      url: '/delete-mark'
-      
-    });
-  });
 }); //end of getready function
 
 
