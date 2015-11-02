@@ -131,3 +131,8 @@ label {
 .mark-li {
 	list-style: none;
 }
+footer{
+	height: 100px;
+	background-color: #e5e5e5;
+	border-top:1px solid #aaa;
+}
