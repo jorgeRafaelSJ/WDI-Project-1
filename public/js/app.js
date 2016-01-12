@@ -59,8 +59,6 @@ $(document).ready(function(){
 
 
   // GOOGLE search field autocomplete and gets result objects
-
-
 	var initAutocomplete = function () {
       
     //Searchbox
