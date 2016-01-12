@@ -12,7 +12,9 @@ var db = require('./models/index.js');
 //uses and sets
 
 //API ENV setup
-require('dotenv').load();
+
+// dotenv needs to be uncommented during development!
+// require('dotenv').load();
 var gMaps = process.env.G_API_KEY;
 
 
